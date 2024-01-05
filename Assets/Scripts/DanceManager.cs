@@ -54,9 +54,9 @@ public class DanceManager : MonoBehaviour
 
         foreach (var note in distinctVelocityNotes)
         {
-                var metricTimeSpan = TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, tempoMap);
-                var timeStamp = (double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f;
-                timeStamps.Add(timeStamp);
+            var metricTimeSpan = TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, tempoMap);
+            var timeStamp = (double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds + (double)metricTimeSpan.Milliseconds / 1000f;
+            timeStamps.Add(timeStamp);
         }
     }
 
@@ -73,7 +73,7 @@ public class DanceManager : MonoBehaviour
 
     void Update()
     {
-        if (spawnIndex < timeStamps.Count)
+        if (spawnIndex < timeStamps.Count && SongManager.Instance.isSongStarted)
         {
             // noteTime (4 beats) before dance
             if (SongManager.GetAudioSourceTime() >= timeStamps[spawnIndex] - SongManager.Instance.noteTime)

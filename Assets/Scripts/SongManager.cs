@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.Networking;
 using System.Linq;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SongManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class SongManager : MonoBehaviour
     public Lane[] lanes;
     public DanceProgressBar danceProgressBar;
     public DanceManager danceManager;
+
+    public Image overlay;
 
     [SerializeField] private Interval[] intervals;
 
@@ -43,8 +46,11 @@ public class SongManager : MonoBehaviour
     public static MidiFile midiFile;
 
     public bool isSongFinishedPlaying = false;
+    public bool isSongStarted = false;
+    private float overlayFadeOutTimer = 1f;
 
     // Start is called before the first frame update
+    [System.Obsolete]
     void Start()
     {
         Instance = this;
@@ -61,6 +67,7 @@ public class SongManager : MonoBehaviour
         noteTime = (60f / bpm) * 4;
     }
 
+    [System.Obsolete]
     private IEnumerator ReadFromWebsite()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(Application.streamingAssetsPath + "/" + fileLocation))
@@ -115,6 +122,8 @@ public class SongManager : MonoBehaviour
 
         danceAudioSource.Play();
         danceCoruptAudioSource.Play();
+
+        isSongStarted = true;
     }
 
     public void CoruptSong()
@@ -157,6 +166,15 @@ public class SongManager : MonoBehaviour
             danceAudioSource.volume = newMainVolume;
             danceCoruptAudioSource.volume = 1 - newMainVolume;
         }
+
+        if (overlayFadeOutTimer > 0)
+        {
+            overlayFadeOutTimer -= Time.deltaTime * 0.5f;
+            Color color = overlay.color;
+            color.a = overlayFadeOutTimer;
+            overlay.color = color;
+        }
+
     }
 }
 
