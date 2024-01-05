@@ -145,6 +145,18 @@ public class SongManager : MonoBehaviour
         return time;
     }
 
+    public void Pause()
+    {
+        danceAudioSource.Pause();
+        danceCoruptAudioSource.Pause();
+    }
+
+    public void Resume()
+    {
+        danceAudioSource.UnPause();
+        danceCoruptAudioSource.UnPause();
+    }
+
     void Update()
     {
         foreach (Interval interval in intervals)
@@ -156,6 +168,7 @@ public class SongManager : MonoBehaviour
         if (!danceAudioSource.isPlaying && danceAudioSource.time > 0)
         {
             isSongFinishedPlaying = true;
+            PopupsManager.Instance.OpenLevelEndPopup();
         }
 
         if (!isSongFinishedPlaying)
