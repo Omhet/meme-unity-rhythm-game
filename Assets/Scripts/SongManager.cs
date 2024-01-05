@@ -111,6 +111,7 @@ public class SongManager : MonoBehaviour
 
         int count = notes.Count(note => note.Velocity > 1);
         danceProgressBar.SetMaximumValue(count * 2);
+        ScoreManager.Instance.maximumLevelScore = count;
 
         Invoke(nameof(StartSong), songDelayInSeconds);
     }
